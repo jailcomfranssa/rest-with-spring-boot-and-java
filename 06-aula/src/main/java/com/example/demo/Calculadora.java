@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.exceptions.UnsupportrdMathOperationException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,8 +12,9 @@ public class Calculadora {
     @RequestMapping(value="/sum/{numberOne}/{numberTwo}", method= RequestMethod.GET)
     public Double sum(@PathVariable("numberOne") String numberOne,
                       @PathVariable("numberTwo") String numberTwo) throws Exception {
+
         if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
-            throw new Exception();
+            throw new UnsupportrdMathOperationException("Insira um valor numerico");
         }
         return covertToDouble(numberOne) + covertToDouble(numberTwo);
     }
