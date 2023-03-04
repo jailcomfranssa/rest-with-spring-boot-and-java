@@ -19,6 +19,55 @@ public class Calculadora {
         return covertToDouble(numberOne) + covertToDouble(numberTwo);
     }
 
+    @RequestMapping(value="/sub/{numberOne}/{numberTwo}", method= RequestMethod.GET)
+    public Double sub(@PathVariable("numberOne") String numberOne,
+                      @PathVariable("numberTwo") String numberTwo) throws Exception {
+
+        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+            throw new UnsupportrdMathOperationException("Insira um valor numerico");
+        }
+        return covertToDouble(numberOne) - covertToDouble(numberTwo);
+    }
+
+    @RequestMapping(value="/mult/{numberOne}/{numberTwo}", method= RequestMethod.GET)
+    public Double mult(@PathVariable("numberOne") String numberOne,
+                      @PathVariable("numberTwo") String numberTwo) throws Exception {
+
+        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+            throw new UnsupportrdMathOperationException("Insira um valor numerico");
+        }
+        return covertToDouble(numberOne) * covertToDouble(numberTwo);
+    }
+
+    @RequestMapping(value="/div/{numberOne}/{numberTwo}", method= RequestMethod.GET)
+    public Double div(@PathVariable("numberOne") String numberOne,
+                      @PathVariable("numberTwo") String numberTwo) throws Exception {
+
+        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+            throw new UnsupportrdMathOperationException("Insira um valor numerico");
+        }
+        return covertToDouble(numberOne) / covertToDouble(numberTwo);
+    }
+
+    @RequestMapping(value="/media/{numberOne}/{numberTwo}", method= RequestMethod.GET)
+    public Double media(@PathVariable("numberOne") String numberOne,
+                      @PathVariable("numberTwo") String numberTwo) throws Exception {
+
+        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+            throw new UnsupportrdMathOperationException("Insira um valor numerico");
+        }
+        return (covertToDouble(numberOne) + covertToDouble(numberTwo)) / 2;
+    }
+
+    @RequestMapping(value="/raiz/{numberOne}/{numberTwo}", method= RequestMethod.GET)
+    public Double raiz(@PathVariable("numberOne") String numberOne) throws Exception {
+
+        if (!isNumeric(numberOne)) {
+            throw new UnsupportrdMathOperationException("Insira um valor numerico");
+        }
+        return Math.sqrt(covertToDouble(numberOne));
+    }
+
     public static Double covertToDouble(String strNumber) {
         if (strNumber == null) return 0d;
         String number = strNumber.replaceAll(",", ".");
