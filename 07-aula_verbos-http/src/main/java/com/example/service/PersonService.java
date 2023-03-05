@@ -14,6 +14,27 @@ public class PersonService {
     private final AtomicLong counter = new AtomicLong();
     private final Logger logger = Logger.getLogger(PersonService.class.getName());
 
+    public Person create(Person person){
+        logger.info("Finding create person!");
+
+        return person;
+
+    }
+
+    public Person update(Person person){
+        logger.info("Finding update person!");
+
+        return person;
+
+    }
+
+    public void delete(String id){
+        logger.info("Finding delete person!");
+
+
+
+    }
+
     public List<Person> findAll(){
         logger.info("Finding all person!");
         List<Person> persons = new ArrayList<>();
