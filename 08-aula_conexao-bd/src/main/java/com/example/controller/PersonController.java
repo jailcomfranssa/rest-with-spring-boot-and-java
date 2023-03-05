@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.data.vo.v1.PersonVO;
+import com.example.data.vo.v2.PersonVOV2;
 import com.example.model.Person;
 import com.example.services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,12 @@ public class PersonController {
     public PersonVO create(@RequestBody PersonVO person) {
 
         return service.create(person);
+    }
+
+    @PostMapping(value = "/v2", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public PersonVOV2 createV2(@RequestBody PersonVOV2 person) {
+
+        return service.createV2(person);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

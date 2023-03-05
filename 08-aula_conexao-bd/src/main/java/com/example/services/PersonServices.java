@@ -1,8 +1,10 @@
 package com.example.services;
 
 import com.example.data.vo.v1.PersonVO;
+import com.example.data.vo.v2.PersonVOV2;
 import com.example.exceptions.ResourceNotFoundException;
 import com.example.mapper.DozerMapper;
+import com.example.mapper.custom.PersonMapper;
 import com.example.model.Person;
 import com.example.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class PersonServices {
 
     @Autowired
     PersonRepository repository;
+
+    @Autowired
+    PersonMapper personMapper;
 
     public List<PersonVO> findAll() {
 
@@ -43,6 +48,15 @@ public class PersonServices {
         var vo =  DozerMapper.parseObject(repository.save(entity), PersonVO.class);
         return vo;
     }
+
+    public PersonVOV2 createV2(PersonVOV2 person) {
+
+        logger.info("Creating one person V2!");
+        var entity = personMapper.convertVoToEntity(person);
+        var vo =  personMapper.convertEntityToVo(repository.save(entity));
+        return vo;
+    }
+
 
     public PersonVO update(PersonVO person) {
 
