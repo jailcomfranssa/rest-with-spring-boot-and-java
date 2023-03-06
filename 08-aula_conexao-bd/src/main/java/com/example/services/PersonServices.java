@@ -1,5 +1,6 @@
 package com.example.services;
 
+import com.example.controller.PersonController;
 import com.example.data.vo.v1.PersonVO;
 import com.example.data.vo.v2.PersonVOV2;
 import com.example.exceptions.ResourceNotFoundException;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.logging.Logger;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 @Service
@@ -29,7 +33,9 @@ public class PersonServices {
 
         logger.info("Finding all people!");
 
-        return DozerMapper.parseListObjects(repository.findAll(), PersonVO.class);
+        var persons = DozerMapper.parseListObjects(repository.findAll(), PersonVO.class);
+        persons.forEach(p-> p.add(linkTo(methodOn(PersonController.class).findbyId(p.getId())).withSelfRel()));
+        return persons;
     }
 
     public PersonVO findById(Long id) {
@@ -38,7 +44,10 @@ public class PersonServices {
 
         var entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
-        return DozerMapper.parseObject(entity, PersonVO.class);
+        PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findbyId(id)).withSelfRel());
+
+        return vo;
     }
 
     public PersonVO create(PersonVO person) {
@@ -46,6 +55,8 @@ public class PersonServices {
         logger.info("Creating one person!");
         var entity = DozerMapper.parseObject(person, Person.class);
         var vo =  DozerMapper.parseObject(repository.save(entity), PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findbyId(vo.getId())).withSelfRel());
+
         return vo;
     }
 
@@ -71,6 +82,8 @@ public class PersonServices {
         entity.setGender(person.getGender());
 
         var vo =  DozerMapper.parseObject(repository.save(entity), PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findbyId(vo.getId())).withSelfRel());
+
         return vo;
     }
 

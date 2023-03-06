@@ -4,18 +4,21 @@ package com.example.data.vo.v1;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serial;
 import java.io.Serializable;
 
 @JsonPropertyOrder({"primeiro_nome","lastName","address","gender","id"})
-public class PersonVO implements Serializable {
+public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
 
     @Serial
     private static final long serialVersionUID= 1L;
 
 
-    private Long id;
+    @Mapping("id")
+    private Long key;
 
     @JsonProperty("primeiro_nome")
     private String firstName;
@@ -30,8 +33,8 @@ public class PersonVO implements Serializable {
 
     }
 
-    public PersonVO(Long id, String firstName, String lastName, String address, String gender) {
-        this.id = id;
+    public PersonVO(Long key, String firstName, String lastName, String address, String gender) {
+        this.key = key;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -39,11 +42,11 @@ public class PersonVO implements Serializable {
     }
 
     public Long getId() {
-        return id;
+        return key;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.key = id;
     }
 
     public String getFirstName() {
@@ -82,14 +85,17 @@ public class PersonVO implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
-        PersonVO person = (PersonVO) o;
+        PersonVO personVO = (PersonVO) o;
 
-        return id.equals(person.id);
+        return key.equals(personVO.key);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        int result = super.hashCode();
+        result = 31 * result + key.hashCode();
+        return result;
     }
 }
