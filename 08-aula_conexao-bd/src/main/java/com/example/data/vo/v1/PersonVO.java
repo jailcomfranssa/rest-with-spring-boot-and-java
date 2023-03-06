@@ -1,9 +1,14 @@
 package com.example.data.vo.v1;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.io.Serial;
 import java.io.Serializable;
 
+@JsonPropertyOrder({"primeiro_nome","lastName","address","gender","id"})
 public class PersonVO implements Serializable {
 
     @Serial
@@ -12,12 +17,13 @@ public class PersonVO implements Serializable {
 
     private Long id;
 
-
+    @JsonProperty("primeiro_nome")
     private String firstName;
 
     private String lastName;
 
     private String address;
+    @JsonIgnore
     private String gender;
 
     public PersonVO(){
